@@ -30,4 +30,20 @@ public class DoctorServiceImpl implements DoctorService {
     public Doctor createDoctor(Doctor doctor) {
         return this.doctorRepository.save(doctor);
     }
+
+    @Override
+    public Doctor updateDoctor(Doctor doctor, long id) {
+        return this.doctorRepository.findById(id)
+                .map(doctor1 -> {
+                    doctor1.setName(doctor.getName());
+                    return this.doctorRepository.save(doctor1);
+                }).orElseGet(() ->
+                        this.doctorRepository.save(doctor)
+                );
+    }
+
+    @Override
+    public void deleteDoctor(long id) {
+        this.doctorRepository.deleteById(id);
+    }
 }

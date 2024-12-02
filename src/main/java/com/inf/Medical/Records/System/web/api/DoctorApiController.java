@@ -29,4 +29,14 @@ public class DoctorApiController {
     public Doctor createDoctor(@RequestBody Doctor doctor) {
         return this.doctorService.createDoctor(doctor);
     }
+
+    @PutMapping({"/{id}"})
+    public Doctor updateDoctor(@RequestBody Doctor doctor,@PathVariable long id) {
+        return this.doctorService.updateDoctor(doctor, id);
+    }
+
+    @DeleteMapping({"/{id}"})
+    public void deleteDoctor(@PathVariable long id) {
+        this.doctorService.deleteDoctor(id);
+    }
 }

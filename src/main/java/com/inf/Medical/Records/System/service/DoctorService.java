@@ -11,4 +11,8 @@ public interface DoctorService {
     Optional<Doctor> getDoctorById(long id);
 
     Doctor createDoctor(Doctor doctor);
+
+    Doctor updateDoctor(Doctor doctor, long id);
+
+    void deleteDoctor(long id);
 }
