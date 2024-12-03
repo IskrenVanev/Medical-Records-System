@@ -1,7 +1,7 @@
 package com.inf.Medical.Records.System.service.impl;
 
 import com.inf.Medical.Records.System.data.Doctor;
-import com.inf.Medical.Records.System.data.DoctorRepository;
+import com.inf.Medical.Records.System.repo.DoctorRepository;
 import com.inf.Medical.Records.System.service.DoctorService;
 import org.springframework.stereotype.Service;
 
