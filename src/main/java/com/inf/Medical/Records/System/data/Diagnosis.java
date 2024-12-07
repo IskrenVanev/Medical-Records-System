@@ -1,5 +1,6 @@
 package com.inf.Medical.Records.System.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -14,5 +15,6 @@ public class Diagnosis extends BaseEntity{
     private String name;
 
     @OneToMany(mappedBy = "diagnosis")
+    @JsonIgnore
     private List<Visit> visits;
 }
