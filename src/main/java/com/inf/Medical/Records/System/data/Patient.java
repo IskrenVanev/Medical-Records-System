@@ -1,5 +1,6 @@
 package com.inf.Medical.Records.System.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -23,5 +24,6 @@ public class Patient extends BaseEntity{
     private Doctor generalPractitioner;//GP
 
     @OneToMany(mappedBy = "patient")
+    @JsonIgnore
     private List<Visit> visits;
 }

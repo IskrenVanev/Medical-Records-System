@@ -15,4 +15,7 @@ public interface DoctorService {
     Doctor updateDoctor(Doctor doctor, long id);
 
     void deleteDoctor(long id);
+
+    List<Doctor> findDoctorsByName(String name);
+    List<Doctor> findDoctorsByNameStartsWith(String name);
 }

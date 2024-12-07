@@ -15,6 +15,7 @@ public class DoctorApiController {
 
     private final DoctorService doctorService;
 
+
     @GetMapping
     public List<Doctor> getDoctors() {
         return doctorService.getDoctors();
@@ -38,5 +39,10 @@ public class DoctorApiController {
     @DeleteMapping({"/{id}"})
     public void deleteDoctor(@PathVariable long id) {
         this.doctorService.deleteDoctor(id);
+    }
+
+    @GetMapping("search/name/{name}")
+    public List<Doctor> getDoctorsByName(@PathVariable String name) {
+        return this.doctorService.findDoctorsByName(name);
     }
 }

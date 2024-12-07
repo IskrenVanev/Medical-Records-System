@@ -34,16 +34,27 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Doctor updateDoctor(Doctor doctor, long id) {
         return this.doctorRepository.findById(id)
-                .map(doctor1 -> {
-                    doctor1.setName(doctor.getName());
-                    return this.doctorRepository.save(doctor1);
-                }).orElseGet(() ->
-                        this.doctorRepository.save(doctor)
-                );
+                .map(existingDoctor -> {
+                    existingDoctor.setName(doctor.getName());
+                    existingDoctor.setSpecialties(doctor.getSpecialties());
+                    existingDoctor.setGeneralPractitioner(doctor.isGeneralPractitioner());
+                    return this.doctorRepository.save(existingDoctor);
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Doctor not found with id: " + id));
     }
 
     @Override
     public void deleteDoctor(long id) {
         this.doctorRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Doctor> findDoctorsByName(String name) {
+        return this.doctorRepository.findDoctorsByName(name);
+    }
+
+    @Override
+    public List<Doctor> findDoctorsByNameStartsWith(String name){
+        return this.doctorRepository.findDoctorsByNameStartsWith(name);
     }
 }
