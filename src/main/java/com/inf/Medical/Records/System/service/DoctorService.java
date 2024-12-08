@@ -17,5 +17,5 @@ public interface DoctorService {
     void deleteDoctor(long id);
 
     List<Doctor> findDoctorsByName(String name);
-    List<Doctor> findDoctorsByNameStartsWith(String name);
+
 }

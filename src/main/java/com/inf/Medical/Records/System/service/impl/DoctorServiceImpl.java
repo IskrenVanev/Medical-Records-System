@@ -35,9 +35,10 @@ public class DoctorServiceImpl implements DoctorService {
     public Doctor updateDoctor(Doctor doctor, long id) {
         return this.doctorRepository.findById(id)
                 .map(existingDoctor -> {
-                    existingDoctor.setName(doctor.getName());
+                    existingDoctor.setName(doctor.getName()); // if she gets married haha
                     existingDoctor.setSpecialties(doctor.getSpecialties());
                     existingDoctor.setGeneralPractitioner(doctor.isGeneralPractitioner());
+                    existingDoctor.setVisits(doctor.getVisits());
                     return this.doctorRepository.save(existingDoctor);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Doctor not found with id: " + id));
@@ -53,8 +54,4 @@ public class DoctorServiceImpl implements DoctorService {
         return this.doctorRepository.findDoctorsByName(name);
     }
 
-    @Override
-    public List<Doctor> findDoctorsByNameStartsWith(String name){
-        return this.doctorRepository.findDoctorsByNameStartsWith(name);
-    }
 }
