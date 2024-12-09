@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+<header th:replace="fragments :: header"></header>
+
+<div class="container mt-4">
+    <h4>Diagnoses:</h4>
+    <div class="col-6">
+        <!-- If there are no diagnoses -->
+        <h3 th:unless="${diagnoses} and ${diagnoses.size()}">There are no diagnoses!</h3>
+
+        <!-- If there are diagnoses, display them in a table -->
+        <table th:if="${diagnoses.size() > 0}" class="table table-hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="diagnosis : ${diagnoses}">
+                <td th:text="${diagnosis.id}"></td>
+                <td th:text="${diagnosis.name}"></td>
+                <td>
+                    <a class="btn btn-info"
+                       th:href="@{/diagnoses/edit/{id}(id=${diagnosis.id})}">Edit</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger"
+                       th:href="@{/diagnoses/delete/{id}(id=${diagnosis.id})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>
