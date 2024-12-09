@@ -4,12 +4,14 @@ import com.inf.Medical.Records.System.data.Diagnosis;
 import com.inf.Medical.Records.System.data.Doctor;
 import com.inf.Medical.Records.System.repo.DiagnosisRepository;
 import com.inf.Medical.Records.System.service.DiagnosisService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class DiagnosisServiceImpl implements DiagnosisService {
     private final DiagnosisRepository diagnosisRepository;
+
     public DiagnosisServiceImpl(DiagnosisRepository diagnosisRepository) {
         this.diagnosisRepository = diagnosisRepository;
     }

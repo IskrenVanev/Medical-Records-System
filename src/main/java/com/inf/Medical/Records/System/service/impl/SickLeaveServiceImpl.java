@@ -4,11 +4,12 @@ import com.inf.Medical.Records.System.data.SickLeave;
 import com.inf.Medical.Records.System.repo.PatientRepository;
 import com.inf.Medical.Records.System.repo.SickLeaveRepository;
 import com.inf.Medical.Records.System.service.SickLeaveService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class SickLeaveServiceImpl implements SickLeaveService {
     private final SickLeaveRepository sickLeaveRepository;
 

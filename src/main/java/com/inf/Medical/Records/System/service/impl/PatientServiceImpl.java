@@ -6,10 +6,11 @@ import com.inf.Medical.Records.System.data.Patient;
 import com.inf.Medical.Records.System.repo.DoctorRepository;
 import com.inf.Medical.Records.System.repo.PatientRepository;
 import com.inf.Medical.Records.System.service.PatientService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
 

@@ -4,11 +4,12 @@ import com.inf.Medical.Records.System.data.Visit;
 import com.inf.Medical.Records.System.repo.SickLeaveRepository;
 import com.inf.Medical.Records.System.repo.VisitRepository;
 import com.inf.Medical.Records.System.service.VisitService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class VisitServiceImpl implements VisitService {
     private final VisitRepository visitRepository;
 
