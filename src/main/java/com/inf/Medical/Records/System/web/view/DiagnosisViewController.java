@@ -16,7 +16,7 @@ public class DiagnosisViewController {
     @GetMapping
     public String getDiagnoses(Model model) {
         model.addAttribute("diagnoses", this.diagnosisService.getDiagnoses());
-        return "/diagnoses/diagnoses.html"; // Renders diagnoses list view
+        return "/diagnoses/diagnoses"; // Renders diagnoses list view
     }
 
     // Show form to create a new diagnosis
@@ -29,27 +29,28 @@ public class DiagnosisViewController {
     @PostMapping
     public String createDiagnosis(Diagnosis diagnosis) {
         diagnosisService.createDiagnosis(diagnosis);
-        return "redirect:/diagnoses"; // Redirect to the list view
+        return "redirect:/view/diagnoses"; // Redirect to the list view
     }
 
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
         model.addAttribute("diagnosis", diagnosisService.getDiagnosisById(id).orElseThrow(() ->
                 new IllegalArgumentException("Diagnosis not found")));
-        return "diagnoses/edit"; // Renders the form for editing a diagnosis
+        return "diagnoses/edit-diagnosis"; // Renders the form for editing a diagnosis
     }
 
-    // Handle form submission to update a diagnosis
+    // Handle the update form submission
     @PostMapping("/{id}/edit")
     public String updateDiagnosis(@PathVariable long id, @ModelAttribute Diagnosis diagnosis) {
-        diagnosisService.updateDiagnosis(diagnosis, id);
-        return "redirect:/diagnoses"; // Redirect to the list view
+        diagnosisService.updateDiagnosis(diagnosis, id); // Update the diagnosis
+        return "redirect:/view/diagnoses"; // Redirect to the diagnoses list page
     }
+
 
     // Delete a diagnosis
     @PostMapping("/{id}/delete")
     public String deleteDiagnosis(@PathVariable long id) {
         diagnosisService.deleteDiagnosis(id);
-        return "redirect:/diagnoses"; // Redirect to the list view
+        return "redirect:/view/diagnoses"; // Redirect to the list view
     }
 }

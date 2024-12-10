@@ -1,39 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head"></head>
+<head th:replace="fragments :: head">
+    <style>
+        /* Ensure the body and html take up full height */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Flexbox container for centering */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically center */
+            align-items: center; /* Horizontally center */
+            height: 100%; /* Take up full height */
+            text-align: center;
+        }
+
+        /* Table styling */
+        table {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        /* Button styling */
+        .btn {
+            margin: 5px;
+        }
+    </style>
+</head>
 <body>
 <header th:replace="fragments :: header"></header>
 
 <div class="container mt-4">
     <h4>Diagnoses:</h4>
-    <div class="col-6">
-        <!-- If there are no diagnoses -->
-        <h3 th:unless="${diagnoses} and ${diagnoses.size()}">There are no diagnoses!</h3>
-
-        <!-- If there are diagnoses, display them in a table -->
-        <table th:if="${diagnoses.size() > 0}" class="table table-hover">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="diagnosis : ${diagnoses}">
-                <td th:text="${diagnosis.id}"></td>
-                <td th:text="${diagnosis.name}"></td>
-                <td>
-                    <a class="btn btn-info"
-                       th:href="@{/diagnoses/edit/{id}(id=${diagnosis.id})}">Edit</a>
-                </td>
-                <td>
-                    <a class="btn btn-danger"
-                       th:href="@{/diagnoses/delete/{id}(id=${diagnosis.id})}">Delete</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="mb-3">
+        <!-- Button to create a new diagnosis -->
+        <a class="btn btn-primary" th:href="@{/view/diagnoses/create}">Create New Diagnosis</a>
     </div>
+
+    <!-- If there are no diagnoses -->
+    <h3 th:unless="${diagnoses} and ${diagnoses.size()}">There are no diagnoses!</h3>
+
+    <!-- If there are diagnoses, display them in a table -->
+    <table th:if="${diagnoses.size() > 0}" class="table table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="diagnosis : ${diagnoses}">
+            <td th:text="${diagnosis.id}"></td>
+            <td th:text="${diagnosis.name}"></td>
+            <td>
+                <a class="btn btn-info"
+                   th:href="@{/view/diagnoses/{id}/edit(id=${diagnosis.id})}">Edit</a>
+
+                <!-- Delete form -->
+                <form th:action="@{/view/diagnoses/{id}/delete(id=${diagnosis.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <footer th:replace="fragments :: footer"></footer>
