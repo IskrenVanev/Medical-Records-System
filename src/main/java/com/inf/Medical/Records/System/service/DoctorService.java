@@ -10,6 +10,8 @@ public interface DoctorService {
 
     Optional<Doctor> getDoctorById(long id);
 
+    List<Doctor> getAllGeneralPractitioners();
+
     Doctor createDoctor(Doctor doctor);
 
     Doctor updateDoctor(Doctor doctor, long id);

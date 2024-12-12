@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-control-select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="fragments :: header"></header>
+
+<div class="container">
+    <h2>Create New Patient</h2>
+    <form th:action="@{/view/patients}" method="post">
+        <!-- Name -->
+        <div class="form-group">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+
+        <!-- EGN -->
+        <div class="form-group">
+            <label for="egn" class="form-label">EGN:</label>
+            <input type="text" id="egn" name="egn" class="form-control" required>
+        </div>
+
+        <!-- Insurance Paid -->
+        <div class="form-group">
+            <label for="insurancePaid" class="form-label">Insurance Paid:</label>
+            <select id="insurancePaid" name="insurancePaid" class="form-control-select">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+        <!-- General Practitioner -->
+        <div class="form-group">
+            <label for="generalPractitioner" class="form-label">General Practitioner:</label>
+            <select id="generalPractitioner" name="generalPractitionerId" class="form-control-select">
+                <option value="" disabled selected>Select a GP</option>
+                <option th:each="gp : ${generalPractitioners}"
+                        th:value="${gp.id}"
+                        th:text="${gp.name} + ' (ID: ' + ${gp.id} + ')'"></option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

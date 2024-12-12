@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+        }
+
+        table {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .btn {
+            margin: 5px;
+        }
+
+        .badge-insurance {
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .badge-insurance-paid {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .badge-insurance-unpaid {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="fragments :: header"></header>
+
+<div class="container mt-4">
+    <h4>Patients:</h4>
+    <div class="mb-3">
+        <!-- Button to create a new patient -->
+        <a class="btn btn-primary" th:href="@{/view/patients/create}">Add New Patient</a>
+    </div>
+
+    <!-- If there are no patients -->
+    <h3 th:unless="${patients} and ${patients.size()}">There are no patients!</h3>
+
+    <!-- If there are patients, display them in a table -->
+    <table th:if="${patients.size() > 0}" class="table table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>EGN</th>
+            <th>Insurance Status</th>
+            <th>General Practitioner</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="patient : ${patients}">
+            <td th:text="${patient.id}"></td>
+            <td th:text="${patient.name}"></td>
+            <td th:text="${patient.egn}"></td>
+
+            <!-- Insurance Status -->
+            <td>
+                <span th:if="${patient.insurancePaid}" class="badge-insurance badge-insurance-paid">Paid</span>
+                <span th:if="${!patient.insurancePaid}" class="badge-insurance badge-insurance-unpaid">Unpaid</span>
+            </td>
+
+            <!-- General Practitioner -->
+            <td>
+                <span th:if="${patient.generalPractitioner != null}"
+                    th:text="${patient.generalPractitioner.name} + ' (ID: ' + ${patient.generalPractitioner.id} + ')'"></span>
+                <span th:if="${patient.generalPractitioner == null}">None</span>
+            </td>
+
+            <!-- Actions -->
+            <td>
+                <a class="btn btn-info"
+                   th:href="@{/view/patients/{id}/edit(id=${patient.id})}">Edit</a>
+
+                <!-- Delete form -->
+                <form th:action="@{/view/patients/{id}/delete(id=${patient.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

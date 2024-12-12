@@ -1,10 +1,7 @@
 package com.inf.Medical.Records.System.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,9 +15,10 @@ public class Patient extends BaseEntity{
 
     private String egn;
 
-    private boolean isInsurancePaid;
+    private boolean insurancePaid;
 
     @ManyToOne
+    @JoinColumn(name = "general_practitioner_id")
     private Doctor generalPractitioner;//GP
 
     @OneToMany(mappedBy = "patient")
