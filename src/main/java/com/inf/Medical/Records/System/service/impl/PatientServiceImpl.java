@@ -38,7 +38,7 @@ public class PatientServiceImpl implements PatientService {
         return this.patientRepository.findById(id)
                 .map(existingPatient -> {
                     existingPatient.setName(patient.getName());// if she gets married haha
-                    existingPatient.setInsurancePaid(patient.isInsurancePaid());
+                    existingPatient.setInsurancePaid(patient.getInsurancePaid());
                     existingPatient.setVisits(patient.getVisits());
                     existingPatient.setGeneralPractitioner(patient.getGeneralPractitioner());
                     return this.patientRepository.save(existingPatient);

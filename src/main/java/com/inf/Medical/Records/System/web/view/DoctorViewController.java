@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import javax.print.Doc;
 import java.util.ArrayList;
@@ -59,8 +61,15 @@ public class DoctorViewController {
 
     // Delete a diagnosis
     @PostMapping("/{id}/delete")
-    public String deleteDoctor(@PathVariable long id) {
+    public String deleteDoctor(@PathVariable long id, RedirectAttributes redirectAttributes) {
+        if (doctorService.hasPatients(id)) {
+            // Add a warning message to display on the page
+            redirectAttributes.addFlashAttribute("warning", "Cannot delete the doctor. There are patients assigned to this GP.");
+            return "redirect:/view/doctors"; // Redirect back to the list view
+        }
+
         doctorService.deleteDoctor(id);
+        redirectAttributes.addFlashAttribute("success", "Doctor deleted successfully.");
         return "redirect:/view/doctors"; // Redirect to the list view
     }
 }

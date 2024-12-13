@@ -2,24 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head">
     <style>
-        /* Ensure the body and html take up full height */
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
         }
 
-        /* Flexbox container for centering */
         .container {
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Vertically center */
-            align-items: center; /* Horizontally center */
-            height: 100%; /* Take up full height */
+            justify-content: center;
+            align-items: center;
+            height: 100%;
             text-align: center;
         }
 
-        /* Table styling */
         table {
             margin-top: 20px;
             width: 100%;
@@ -31,12 +28,10 @@
             border: 1px solid #ddd;
         }
 
-        /* Button styling */
         .btn {
             margin: 5px;
         }
 
-        /* General Practitioner badge */
         .badge-gp {
             background-color: #28a745;
             color: white;
@@ -44,12 +39,35 @@
             border-radius: 5px;
             font-size: 0.9rem;
         }
+
+        .alert {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .alert-warning {
+            background-color: #ffc107;
+            color: #856404;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
     </style>
 </head>
 <body>
 <header th:replace="fragments :: header"></header>
 
 <div class="container mt-4">
+    <!-- Flash Messages -->
+    <div th:if="${warning}" class="alert alert-warning" th:text="${warning}"></div>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
     <h4>Doctors:</h4>
     <div class="mb-3">
         <!-- Button to create a new doctor -->

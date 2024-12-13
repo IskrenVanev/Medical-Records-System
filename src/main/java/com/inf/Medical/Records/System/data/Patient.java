@@ -10,15 +10,15 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Patient extends BaseEntity{
+public class Patient extends BaseEntity {
     private String name;
 
     private String egn;
 
-    private boolean insurancePaid;
+    private Boolean insurancePaid;
 
     @ManyToOne
-    @JoinColumn(name = "general_practitioner_id")
+    @JoinColumn(name = "general_practitioner_id", nullable = true)
     private Doctor generalPractitioner;//GP
 
     @OneToMany(mappedBy = "patient")

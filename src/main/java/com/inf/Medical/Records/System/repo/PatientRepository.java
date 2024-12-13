@@ -5,4 +5,5 @@ import com.inf.Medical.Records.System.data.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PatientRepository extends JpaRepository<Patient, Long> {
+    boolean existsByGeneralPractitionerId(long generalPractitionerId);
 }

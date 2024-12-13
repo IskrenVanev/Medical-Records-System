@@ -2,6 +2,7 @@ package com.inf.Medical.Records.System.service.impl;
 
 import com.inf.Medical.Records.System.data.Doctor;
 import com.inf.Medical.Records.System.repo.DoctorRepository;
+import com.inf.Medical.Records.System.repo.PatientRepository;
 import com.inf.Medical.Records.System.service.DoctorService;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,11 @@ import java.util.Optional;
 @Service
 public class DoctorServiceImpl implements DoctorService {
     private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
 
-    public DoctorServiceImpl(DoctorRepository doctorRepository) {
+    public DoctorServiceImpl(DoctorRepository doctorRepository, PatientRepository patientRepository) {
         this.doctorRepository = doctorRepository;
+        this.patientRepository = patientRepository;
     }
 
     @Override
@@ -29,6 +32,11 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<Doctor> getAllGeneralPractitioners() {
         return doctorRepository.findByGeneralPractitioner(true);
+    }
+
+    public boolean hasPatients(long doctorId) {
+        // Check if any patients have this doctor as their GP
+        return patientRepository.existsByGeneralPractitionerId(doctorId);
     }
 
     @Override

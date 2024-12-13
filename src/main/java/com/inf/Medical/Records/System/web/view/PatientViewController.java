@@ -40,7 +40,8 @@ public class PatientViewController {
     }
 
     @PostMapping
-    public String createPatient(@ModelAttribute Patient patient, @RequestParam("generalPractitionerId") Long gpId) {
+    public String createPatient(@ModelAttribute Patient patient,
+                                @RequestParam(value = "generalPractitionerId", required = false) Long gpId) {
         // Resolve the GP from the database if an ID is provided
         if (gpId != null) {
             Doctor generalPractitioner = doctorService.getDoctorById(gpId)
@@ -48,18 +49,9 @@ public class PatientViewController {
             patient.setGeneralPractitioner(generalPractitioner);
         }
 
-        // Save the patient
-        if (patient != null) {
-            System.out.println("Insurance Paid: " + patient.isInsurancePaid());
-            if (patient.getGeneralPractitioner() != null) {
-                System.out.println("GP ID: " + patient.getGeneralPractitioner().getId());
-            } else {
-                System.out.println("GP is null");
-            }
-        } else {
-            System.out.println("Patient object is null");
+        if (patient.getInsurancePaid() == null) {
+            patient.setInsurancePaid(false);
         }
-
         patientService.createPatient(patient);
         return "redirect:/view/patients"; // Redirect to the list view
     }
@@ -69,17 +61,45 @@ public class PatientViewController {
     public String showEditPatientForm(@PathVariable Long id, Model model) {
         Patient patient = patientService.getPatientById(id) // Assuming this returns an Optional
                 .orElseThrow(() -> new IllegalArgumentException("Invalid patient ID: " + id));
+        List<Doctor> generalPractitioners = doctorService.getAllGeneralPractitioners();
+
         model.addAttribute("patient", patient);
+        model.addAttribute("generalPractitioners", generalPractitioners);
+
         return "patients/edit-patient"; // Thymeleaf template name
     }
 
     // Handle the update form submission
     @PostMapping("/{id}/edit")
-    public String updatePatient(@PathVariable long id, @ModelAttribute Patient patient) {
+    public String updatePatient(@PathVariable long id, @ModelAttribute Patient patient, @RequestParam(required = false) Long generalPractitionerId) {
         System.out.println("Updating patient with ID: " + id);
-        patientService.updatePatient(patient, id); // Update the doctor
-        return "redirect:/view/patients"; // Redirect to the doctors list page
+
+        // Fetch the patient from the database
+        Patient existingPatient = patientService.getPatientById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid patient ID: " + id));
+
+        // Set the patient's basic properties (name, insurancePaid, etc.)
+        existingPatient.setName(patient.getName());
+        existingPatient.setInsurancePaid(patient.getInsurancePaid());
+        existingPatient.setVisits(patient.getVisits());
+
+        // If a general practitioner ID was provided, fetch the Doctor and set it
+        if (generalPractitionerId != null) {
+            Doctor generalPractitioner = doctorService.getDoctorById(generalPractitionerId)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid general practitioner ID: " + generalPractitionerId));
+            existingPatient.setGeneralPractitioner(generalPractitioner);
+        } else {
+            // If no GP is selected, set it to null (or some default value if needed)
+            existingPatient.setGeneralPractitioner(null);
+        }
+
+        // Pass the patient and ID to the service for updating
+        patientService.updatePatient(existingPatient, id);
+
+        // Redirect to the patients list page
+        return "redirect:/view/patients";
     }
+
 
 
     // Delete a diagnosis

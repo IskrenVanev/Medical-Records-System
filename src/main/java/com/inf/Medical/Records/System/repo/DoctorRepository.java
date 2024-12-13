@@ -10,4 +10,5 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     List<Doctor> findByGeneralPractitioner(boolean isGeneralPractitioner);
 
+
 }
