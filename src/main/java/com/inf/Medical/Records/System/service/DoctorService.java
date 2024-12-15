@@ -12,6 +12,8 @@ public interface DoctorService {
 
     List<Doctor> getAllGeneralPractitioners();
 
+    List<Doctor> getDoctorsByIds(List<Long> doctorIds);
+
     boolean hasPatients(long doctorId);
 
     Doctor createDoctor(Doctor doctor);

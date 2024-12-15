@@ -38,6 +38,9 @@ public class DoctorServiceImpl implements DoctorService {
         // Check if any patients have this doctor as their GP
         return patientRepository.existsByGeneralPractitionerId(doctorId);
     }
+    public List<Doctor> getDoctorsByIds(List<Long> doctorIds) {
+        return doctorRepository.findAllById(doctorIds);  // Fetch multiple doctors
+    }
 
     @Override
     public Doctor createDoctor(Doctor doctor) {

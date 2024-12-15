@@ -1,0 +1,87 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head th:replace="fragments :: head">-->
+<!--    <style>-->
+<!--        /* Ensure the body and html take up full height */-->
+<!--        html, body {-->
+<!--            height: 100%;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--        }-->
+
+<!--        /* Flexbox container for centering */-->
+<!--        .container {-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            justify-content: center; /* Vertically center */-->
+<!--            align-items: center; /* Horizontally center */-->
+<!--            height: 100%; /* Take up full height */-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        /* Form styling */-->
+<!--        .form-container {-->
+<!--            width: 100%;-->
+<!--            max-width: 600px;-->
+<!--            margin-top: 20px;-->
+<!--        }-->
+
+<!--        .form-group {-->
+<!--            margin-bottom: 15px;-->
+<!--        }-->
+
+<!--        .form-group label {-->
+<!--            display: block;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+<!--        .form-group input {-->
+<!--            width: 100%;-->
+<!--            padding: 8px;-->
+<!--            font-size: 16px;-->
+<!--            margin-top: 5px;-->
+<!--        }-->
+
+<!--        .form-group select {-->
+<!--            width: 100%;-->
+<!--            padding: 8px;-->
+<!--            font-size: 16px;-->
+<!--            margin-top: 5px;-->
+<!--        }-->
+
+<!--        /* Button styling */-->
+<!--        .btn {-->
+<!--            margin-top: 20px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<header th:replace="fragments :: header"></header>-->
+
+<!--<div class="container mt-4">-->
+<!--    <h4>Create Sick Leave:</h4>-->
+<!--    <div class="form-container">-->
+<!--        <form th:action="@{/view/sickLeaves/create}" method="post">-->
+<!--            <div class="form-group">-->
+<!--                <label for="visitId">Visit ID</label>-->
+<!--                <input type="text" id="visitId" name="visitId" th:value="${visitId}" placeholder="Enter Visit ID" required />-->
+<!--            </div>-->
+
+<!--            <div class="form-group">-->
+<!--                <label for="startDate">Start Date</label>-->
+<!--                <input type="date" id="startDate" name="startDate" th:value="${startDate}" required />-->
+<!--            </div>-->
+
+<!--            <div class="form-group">-->
+<!--                <label for="durationInDays">Duration (in days)</label>-->
+<!--                <input type="number" id="durationInDays" name="durationInDays" th:value="${durationInDays}" placeholder="Enter duration" required />-->
+<!--            </div>-->
+
+<!--            <button type="submit" class="btn btn-primary">Create Sick Leave</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<footer th:replace="fragments :: footer"></footer>-->
+<!--</body>-->
+<!--</html>-->

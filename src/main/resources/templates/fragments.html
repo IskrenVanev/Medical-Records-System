@@ -2,16 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Medical Records</title>
-</head>
-<body>
-<!-- Head Fragment -->
-<th:block th:fragment="head">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <title>Medical Records</title>
-</th:block>
+    <style>
+        /* Ensure that the body takes up the full height of the viewport */
+        html, body {
+            height: 100%; /* Full height */
+            margin: 0;    /* Remove default margin */
+            padding: 0;   /* Remove default padding */
+            display: flex;
+            flex-direction: column; /* Stack the header, content, and footer vertically */
+        }
 
+        /* The container should expand to take up available space */
+        .container {
+            flex: 1; /* Allow the container to expand */
+        }
+    </style>
+</head>
+<body>
 <!-- Header Fragment -->
 <th:block th:fragment="header">
     <header>
@@ -36,10 +46,10 @@
                             <a class="nav-link" href="/view/diagnoses">Diagnoses</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/visits">Visits</a>
+                            <a class="nav-link" href="/view/visits">Visits</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/sickLeaves">Sick Leaves</a>
+                            <a class="nav-link" href="/view/sickLeaves">Sick Leaves</a>
                         </li>
                     </ul>
                 </div>
@@ -47,6 +57,11 @@
         </nav>
     </header>
 </th:block>
+
+<!-- Main content -->
+<div class="container">
+    <!-- Your main content goes here -->
+</div>
 
 <!-- Footer Fragment -->
 <th:block th:fragment="footer">
@@ -56,5 +71,6 @@
         </div>
     </footer>
 </th:block>
+
 </body>
 </html>

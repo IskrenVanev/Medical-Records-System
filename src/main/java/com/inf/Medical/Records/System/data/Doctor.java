@@ -17,7 +17,7 @@ public class Doctor extends BaseEntity {
 
     private boolean generalPractitioner;
 
-    @OneToMany(mappedBy = "doctor")
+    @ManyToMany(mappedBy = "doctors")
     @JsonIgnore
     private List<Visit> visits;
 }

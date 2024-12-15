@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head">
+    <style>
+        /* Ensure the body and html take up full height */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Flexbox container for centering */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically center */
+            align-items: center; /* Horizontally center */
+            height: 100%; /* Take up full height */
+            text-align: center;
+        }
+
+        /* Table styling */
+        table {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        /* Button styling */
+        .btn {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="fragments :: header"></header>
+
+<div class="container mt-4">
+    <h4>Sick Leaves:</h4>
+
+    <!-- If there are no sick leaves -->
+    <h3 th:unless="${sickLeaves} and ${sickLeaves.size()}">There are no sick leaves!</h3>
+
+    <!-- If there are sick leaves, display them in a table -->
+    <table th:if="${sickLeaves.size() > 0}" class="table table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Visit</th>
+            <th>Start Date</th>
+            <th>Duration (Days)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sickLeave : ${sickLeaves}">
+            <td th:text="${sickLeave.id}"></td>
+            <td th:text="${sickLeave.visit.id}"></td> <!-- Displaying the Visit ID -->
+            <td th:text="${sickLeave.startDate}"></td>
+            <td th:text="${sickLeave.durationInDays}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>
