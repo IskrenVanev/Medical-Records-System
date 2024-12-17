@@ -8,7 +8,7 @@ import java.util.List;
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     List<Doctor> findDoctorsByName(String name);
 
-    List<Doctor> findDoctorsByNameStartsWith(String name);
+    List<Doctor> findByGeneralPractitioner(boolean isGeneralPractitioner);
 
-    List<Doctor> findDoctorsByNameStartsWithAndGeneralPractitioner(String name, boolean GeneralPractitioner);
+
 }

@@ -12,12 +12,12 @@ import java.util.List;
 public class Doctor extends BaseEntity {
 
     private String name;
-    @ElementCollection
-    private List<String> specialties;
+
+    private String specialties;
 
     private boolean generalPractitioner;
 
-    @OneToMany(mappedBy = "doctor")
+    @ManyToMany(mappedBy = "doctors")
     @JsonIgnore
     private List<Visit> visits;
 }

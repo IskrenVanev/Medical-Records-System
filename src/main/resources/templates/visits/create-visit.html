@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head">
+    <title>Create Visit</title>
+</head>
+<body>
+<header th:replace="fragments :: header"></header>
+
+<div class="container mt-4">
+    <h2>Create New Visit</h2>
+
+    <form th:action="@{/view/visits/create}" method="post">
+        <!-- Patient selection -->
+        <div class="mb-3">
+            <label for="patient" class="form-label">Select Patient</label>
+            <select id="patient" name="patientId" class="form-control" required>
+                <option th:each="patient : ${patients}"
+                        th:value="${patient.id}"
+                        th:text="${patient.name}"></option>
+            </select>
+        </div>
+
+        <!-- Doctor selection (multiple doctors) -->
+        <!-- Doctor selection -->
+        <div class="mb-3">
+            <label for="doctor" class="form-label">Select Doctors</label>
+            <select id="doctor" name="doctorId" class="form-control" multiple required>
+                <option th:each="doctor : ${doctors}"
+                        th:value="${doctor.id}"
+                        th:text="${doctor.name}"></option>
+            </select>
+        </div>
+
+        <!-- Diagnosis selection -->
+        <div class="mb-3">
+            <label for="diagnosis" class="form-label">Select Diagnoses</label>
+            <select id="diagnosis" name="diagnosisId" class="form-control" multiple required>
+                <option th:each="diagnosis : ${diagnoses}"
+                        th:value="${diagnosis.id}"
+                        th:text="${diagnosis.name}"></option>
+            </select>
+        </div>
+
+        <!-- Visit Date -->
+        <div class="mb-3">
+            <label for="date" class="form-label">Visit Date</label>
+            <input type="date" id="date" name="visitDate" class="form-control" required />
+        </div>
+
+        <!-- Sick Leave section (optional) -->
+        <div class="mb-3">
+            <label for="sickLeave" class="form-label">Sick Leave</label>
+            <input type="checkbox" id="sickLeave" name="hasSickLeave" class="form-check-input" /> Apply sick leave
+        </div>
+
+        <div id="sickLeaveDetails" style="display:none;">
+            <div class="mb-3">
+                <label for="startDate" class="form-label">Sick Leave Start Date</label>
+                <input type="date" id="startDate" name="startDate" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="durationInDays" class="form-label">Sick Leave Duration (days)</label>
+                <input type="number" id="durationInDays" name="durationInDays" class="form-control" />
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Visit</button>
+    </form>
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+
+<script>
+    // Toggle sick leave form visibility based on checkbox
+    document.getElementById("sickLeave").addEventListener("change", function () {
+        const details = document.getElementById("sickLeaveDetails");
+        const isChecked = this.checked;
+        details.style.display = isChecked ? "block" : "none";
+
+        // Add or remove 'required' from fields
+        document.getElementById("startDate").required = isChecked;
+        document.getElementById("durationInDays").required = isChecked;
+    });
+</script>
+
+</body>
+</html>
