@@ -19,7 +19,10 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     public List<Diagnosis> getDiagnoses() {
         return this.diagnosisRepository.findAll();
     }
-
+    @Override
+    public List<Diagnosis> getDiagnosesByIds(List<Long> diagnosisIds) {
+        return diagnosisRepository.findAllById(diagnosisIds);  // Fetch multiple doctors
+    }
     @Override
     public Optional<Diagnosis> getDiagnosisById(long id) {
         return this.diagnosisRepository.findById(id);

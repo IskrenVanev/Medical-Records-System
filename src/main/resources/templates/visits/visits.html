@@ -91,8 +91,11 @@
             <td th:text="${visit.patient != null ? visit.patient.name + ' (ID: ' + visit.patient.id + ')' : 'No patient assigned'}"></td>
 
             <!-- Diagnosis Information -->
-            <td th:text="${visit.diagnosis != null ? visit.diagnosis.name + ' (ID: ' + visit.diagnosis.id + ')' : 'No diagnosis assigned'}"></td> <!-- Diagnosis Display -->
-
+            <td>
+                <ul>
+                    <li th:each="diagnosis : ${visit.diagnosis}" th:text="${diagnosis.name} + ' (ID: ' + ${diagnosis.id} + ')'"></li>
+                </ul>
+            </td>
             <!-- Sick Leave Status -->
             <td>
                 <span th:if="${visit.sickLeave != null}"

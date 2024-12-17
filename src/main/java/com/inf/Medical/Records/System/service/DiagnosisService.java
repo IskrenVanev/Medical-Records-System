@@ -11,6 +11,8 @@ public interface DiagnosisService {
 
     Optional<Diagnosis> getDiagnosisById(long id);
 
+    List<Diagnosis> getDiagnosesByIds(List<Long> diagnosisIds);
+
     Diagnosis createDiagnosis(Diagnosis diagnosis);
 
     Diagnosis updateDiagnosis(Diagnosis diagnosis, long id);

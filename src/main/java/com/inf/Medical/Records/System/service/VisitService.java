@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface VisitService {
     List<Visit> getVisits();
 
+    public SickLeave saveSickLeave(SickLeave sickLeave);
+
     Optional<Visit> getVisitById(long id);
 
     Visit createVisit(Visit visit);

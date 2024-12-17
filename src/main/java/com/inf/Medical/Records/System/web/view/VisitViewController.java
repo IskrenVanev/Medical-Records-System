@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,7 +45,7 @@ public class VisitViewController {
             @ModelAttribute Visit visit,
             @RequestParam("patientId") Long patientId,
             @RequestParam("doctorId") List<Long> doctorIds,
-            @RequestParam("diagnosisId") Long diagnosisId,
+            @RequestParam("diagnosisId") List<Long> diagnosisIds,
             @RequestParam(required = false) boolean hasSickLeave,
             @RequestParam(required = false) LocalDate startDate,
             @RequestParam(required = false) Integer durationInDays) {
@@ -51,16 +53,14 @@ public class VisitViewController {
         // Fetch entities from the database
         Patient patient = patientService.getPatientById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
-        Diagnosis diagnosis = diagnosisService.getDiagnosisById(diagnosisId)
-                .orElseThrow(() -> new RuntimeException("Diagnosis not found"));  // Handle the absence of diagnosis
-
+        List<Diagnosis> diagnoses = diagnosisService.getDiagnosesByIds(diagnosisIds);
         // Fetch the list of doctors by their IDs
         List<Doctor> doctors = doctorService.getDoctorsByIds(doctorIds);
 
         // Set the fetched entities into the visit object
         visit.setPatient(patient);
         visit.setDoctors(doctors);
-        visit.setDiagnosis(diagnosis);
+        visit.setDiagnosis(diagnoses);
 
         // If sick leave data is provided, populate it
         if (hasSickLeave) {
@@ -83,22 +83,60 @@ public class VisitViewController {
     public String showEditForm(@PathVariable Long id, Model model) {
         Visit visit = visitService.getVisitById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Visit not found"));
+
+        // Add the visit to the model
         model.addAttribute("visit", visit);
+
+        // Add doctors and diagnoses to the model for selection in the form
+        model.addAttribute("doctors", doctorService.getDoctors());  // Assuming you have a method to get doctors
+        model.addAttribute("diagnoses", diagnosisService.getDiagnoses());  // Assuming you have a method to get diagnoses
+
         return "visits/edit-visit"; // Template for editing a visit
     }
 
-    // Handle visit update with sick leave
     @PostMapping("/{id}/edit")
     public String updateVisit(@PathVariable Long id,
                               @ModelAttribute Visit updatedVisit,
                               @RequestParam(required = false) LocalDate startDate,
-                              @RequestParam(required = false) Integer durationInDays) {
+                              @RequestParam(required = false) Integer durationInDays,
+                              @RequestParam(required = false) boolean hasSickLeave) {
 
-        // Delegate the update logic to the Service layer
-        visitService.updateVisit(updatedVisit, id, startDate);
+        // Fetch the existing visit from the database
+        Visit existingVisit = visitService.getVisitById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Visit not found"));
 
-        return "redirect:/view/visits"; // Redirect to the visits list
+        // Update fields of the existing visit while preserving relationships
+        existingVisit.setVisitDate(updatedVisit.getVisitDate());
+        existingVisit.setPrescribedTreatment(updatedVisit.getPrescribedTreatment());
+        existingVisit.setDoctors(updatedVisit.getDoctors());
+        // Update additional fields from the updatedVisit if needed
+        existingVisit.setDiagnosis(updatedVisit.getDiagnosis());
+
+        // Handle sick leave
+        if (hasSickLeave) {
+            SickLeave sickLeave = existingVisit.getSickLeave();
+            if (sickLeave == null) {
+                sickLeave = new SickLeave();
+            }
+            sickLeave.setStartDate(startDate);
+            sickLeave.setDurationInDays(durationInDays);
+            sickLeave.setVisit(existingVisit); // Associate sick leave with the visit
+            existingVisit.setSickLeave(sickLeave);
+            visitService.saveSickLeave(sickLeave); // Save sick leave
+        } else {
+            existingVisit.setSickLeave(null);
+        }
+
+        // Save the updated visit
+        visitService.createVisit(existingVisit);
+
+        return "redirect:/view/visits";
     }
+
+
+
+
+
 
     // Delete a visit (and its associated sick leave if any)
     @PostMapping("/{id}/delete")

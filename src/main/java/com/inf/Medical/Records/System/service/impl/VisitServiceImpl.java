@@ -3,6 +3,7 @@ package com.inf.Medical.Records.System.service.impl;
 import com.inf.Medical.Records.System.data.Doctor;
 import com.inf.Medical.Records.System.data.SickLeave;
 import com.inf.Medical.Records.System.data.Visit;
+import com.inf.Medical.Records.System.repo.DoctorRepository;
 import com.inf.Medical.Records.System.repo.SickLeaveRepository;
 import com.inf.Medical.Records.System.repo.VisitRepository;
 import com.inf.Medical.Records.System.service.VisitService;
@@ -14,9 +15,14 @@ import java.util.Optional;
 @Service
 public class VisitServiceImpl implements VisitService {
     private final VisitRepository visitRepository;
-
-    public VisitServiceImpl(VisitRepository visitRepository) {
+    private final SickLeaveRepository sickLeaveRepository;
+    public VisitServiceImpl(VisitRepository visitRepository, SickLeaveRepository sickLeaveRepository) {
         this.visitRepository = visitRepository;
+        this.sickLeaveRepository = sickLeaveRepository;
+    }
+
+    public SickLeave saveSickLeave(SickLeave sickLeave) {
+        return sickLeaveRepository.save(sickLeave);  // Saves the sick leave to the database
     }
 
     @Override
@@ -55,20 +61,17 @@ public class VisitServiceImpl implements VisitService {
                     }
 
                     // Handle SickLeave explicitly
-                    SickLeave incomingSickLeave = visit.getSickLeave();
-                    SickLeave existingSickLeave = existingVisit.getSickLeave();
-
-                    if (incomingSickLeave != null) {
+                    if (visit.getSickLeave() != null) {
+                        // If there is an incoming sick leave, update or create one
+                        SickLeave existingSickLeave = existingVisit.getSickLeave();
                         if (existingSickLeave == null) {
-                            // Create new SickLeave if none exists
-                            existingVisit.setSickLeave(incomingSickLeave);
-                        } else {
-                            // Update existing SickLeave
-                            existingSickLeave.setStartDate(incomingSickLeave.getStartDate());
-                            existingSickLeave.setDurationInDays(incomingSickLeave.getDurationInDays());
+                            existingSickLeave = new SickLeave();
+                            existingVisit.setSickLeave(existingSickLeave);
                         }
+                        existingSickLeave.setStartDate(visit.getSickLeave().getStartDate());
+                        existingSickLeave.setDurationInDays(visit.getSickLeave().getDurationInDays());
                     } else {
-                        // Remove SickLeave if incoming is null
+                        // If no sick leave, ensure it's removed
                         existingVisit.setSickLeave(null);
                     }
 
@@ -77,6 +80,8 @@ public class VisitServiceImpl implements VisitService {
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Visit not found with id: " + id));
     }
+
+
 
     @Override
     public void deleteVisit(long id) {

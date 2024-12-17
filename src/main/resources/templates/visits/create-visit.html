@@ -23,7 +23,7 @@
         <!-- Doctor selection (multiple doctors) -->
         <!-- Doctor selection -->
         <div class="mb-3">
-            <label for="doctor" class="form-label">Select Doctor</label>
+            <label for="doctor" class="form-label">Select Doctors</label>
             <select id="doctor" name="doctorId" class="form-control" multiple required>
                 <option th:each="doctor : ${doctors}"
                         th:value="${doctor.id}"
@@ -33,8 +33,8 @@
 
         <!-- Diagnosis selection -->
         <div class="mb-3">
-            <label for="diagnosis" class="form-label">Select Diagnosis</label>
-            <select id="diagnosis" name="diagnosisId" class="form-control" required>
+            <label for="diagnosis" class="form-label">Select Diagnoses</label>
+            <select id="diagnosis" name="diagnosisId" class="form-control" multiple required>
                 <option th:each="diagnosis : ${diagnoses}"
                         th:value="${diagnosis.id}"
                         th:text="${diagnosis.name}"></option>

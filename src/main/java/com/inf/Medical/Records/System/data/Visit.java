@@ -22,8 +22,13 @@ public class Visit extends BaseEntity {
     )
     private List<Doctor> doctors;
 
-    @ManyToOne
-    private Diagnosis diagnosis;
+    @ManyToMany
+    @JoinTable(
+            name = "visit_diagnosis",
+            joinColumns = @JoinColumn(name = "visit_id"),
+            inverseJoinColumns = @JoinColumn(name = "diagnosis_id")
+    )
+    private List<Diagnosis> diagnosis;
 
     private LocalDate visitDate;
 
