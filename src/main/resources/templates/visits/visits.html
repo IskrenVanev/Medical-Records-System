@@ -71,6 +71,7 @@
             <th>Doctor</th>
             <th>Patient</th>
             <th>Diagnosis</th> <!-- New column for Diagnosis -->
+            <th>Prescribed Treatment</th>
             <th>Sick Leave</th>
             <th>Actions</th>
         </tr>
@@ -96,6 +97,11 @@
                     <li th:each="diagnosis : ${visit.diagnosis}" th:text="${diagnosis.name} + ' (ID: ' + ${diagnosis.id} + ')'"></li>
                 </ul>
             </td>
+
+            <td th:text="${visit.prescribedTreatment != null ? visit.prescribedTreatment : 'No treatment prescribed'}"></td>
+
+
+
             <!-- Sick Leave Status -->
             <td>
                 <span th:if="${visit.sickLeave != null}"

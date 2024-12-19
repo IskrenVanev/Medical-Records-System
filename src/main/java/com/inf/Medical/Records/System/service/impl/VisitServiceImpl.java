@@ -1,6 +1,7 @@
 package com.inf.Medical.Records.System.service.impl;
 
 import com.inf.Medical.Records.System.data.Doctor;
+import com.inf.Medical.Records.System.data.Patient;
 import com.inf.Medical.Records.System.data.SickLeave;
 import com.inf.Medical.Records.System.data.Visit;
 import com.inf.Medical.Records.System.repo.DoctorRepository;
@@ -87,4 +88,6 @@ public class VisitServiceImpl implements VisitService {
     public void deleteVisit(long id) {
         this.visitRepository.deleteById(id);
     }
+
+
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Medical Records</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+        .nav-links {
+            margin-top: 20px;
+            margin-bottom: 20px; /* Space between the nav links and the search form */
+        }
+
+        .nav-links a {
+            padding: 10px;
+            margin-right: 10px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Most Diagnosed Diseases</h1>
+    <div class="nav-links">
+        <a class="nav-link" href="/view/reports">Go Back to Reports</a>
+        <a class="nav-link" href="/">Go Home</a>
+    </div>
+    <!-- Table to display the most diagnosed diseases -->
+    <table th:if="${#lists.size(mostDiagnosed) > 0}">
+        <thead>
+        <tr>
+            <th>Diagnosis Name</th>
+            <th>Occurrences</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="entry : ${mostDiagnosed}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Message if no results are found -->
+    <p th:unless="${#lists.size(mostDiagnosed) > 0}">No data available for the most diagnosed diseases.</p>
+</div>
+</body>
+</html>

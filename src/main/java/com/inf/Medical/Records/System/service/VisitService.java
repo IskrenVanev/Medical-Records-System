@@ -1,5 +1,6 @@
 package com.inf.Medical.Records.System.service;
 
+import com.inf.Medical.Records.System.data.Patient;
 import com.inf.Medical.Records.System.data.SickLeave;
 import com.inf.Medical.Records.System.data.Visit;
 
@@ -10,7 +11,7 @@ import java.util.Optional;
 public interface VisitService {
     List<Visit> getVisits();
 
-    public SickLeave saveSickLeave(SickLeave sickLeave);
+    SickLeave saveSickLeave(SickLeave sickLeave);
 
     Optional<Visit> getVisitById(long id);
 
@@ -19,4 +20,6 @@ public interface VisitService {
     Visit updateVisit(Visit visit, long id, LocalDate startDate);
 
     void deleteVisit(long id);
+
+
 }
