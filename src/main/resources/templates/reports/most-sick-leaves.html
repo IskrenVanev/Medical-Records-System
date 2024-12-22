@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Month with Most Sick Leaves</title>
+    <style>
+        .container {
+            margin: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+        .header a {
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .header a:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .no-data {
+            color: red;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <a href="/view/reports">Back to Reports</a>
+        <a href="/">Go Home</a>
+    </div>
+
+    <h1>Month with the Most Sick Leaves</h1>
+
+    <div class="result" th:if="${month != null}">
+        <p>The month with the most sick leaves is
+            <b th:text="${T(java.time.Month).of(month).name()}">Month</b>
+            with <b th:text="${count}">0</b> sick leaves issued.
+        </p>
+    </div>
+
+    <div class="no-data" th:if="${month == null}">
+        <p>No sick leave data available.</p>
+    </div>
+</div>
+</body>
+</html>

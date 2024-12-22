@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Medical Records</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        .form-container {
+            margin-top: 20px;  /* Add some space from the navigation links */
+            margin-bottom: 20px;
+        }
+
+        .form-container input, .form-container button {
+            padding: 8px;
+            margin-right: 5px;
+        }
+
+        .nav-links {
+            margin-top: 20px;
+            margin-bottom: 20px; /* Space between the nav links and the search form */
+        }
+
+        .nav-links a {
+            padding: 10px;
+            margin-right: 10px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Search Patients by GP</h1>
+
+    <!-- Go Back and Go Home buttons -->
+    <div class="nav-links">
+        <a class="nav-link" href="/view/reports">Go Back to Reports</a>
+        <a class="nav-link" href="/">Go Home</a>
+    </div>
+
+    <div class="form-container">
+        <!-- Form to submit GP name -->
+        <form th:action="@{/view/reports/patients-by-gp}" method="get">
+            <label for="gpName">Enter GP Name:</label>
+            <input type="text" id="gpName" name="gpName" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Table to display patients -->
+    <table th:if="${#lists.size(patients) > 0}">
+        <thead>
+        <tr>
+            <th>Patient ID</th>
+            <th>Patient Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="patient : ${patients}">
+            <td th:text="${patient.id}"></td>
+            <td th:text="${patient.name}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Message if no patients are found -->
+    <p th:unless="${#lists.size(patients) > 0}">No patients found for the given GP.</p>
+
+</div>
+</body>
+</html>

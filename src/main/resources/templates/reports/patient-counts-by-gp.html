@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Patient Counts by GP</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        .nav-links {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            padding: 10px;
+            margin-right: 10px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Number of Patients by General Practitioner</h1>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <a class="nav-link" href="/view/reports">Go Back to Reports</a>
+        <a class="nav-link" href="/">Go Home</a>
+    </div>
+
+    <!-- Table to display patient counts -->
+    <table>
+        <thead>
+        <tr>
+            <th>General Practitioner</th>
+            <th>Number of Patients</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="entry : ${patientCounts}">
+            <td th:text="${entry[0]}"></td> <!-- GP name -->
+            <td th:text="${entry[1]}"></td> <!-- Patient count -->
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Message if no data -->
+    <p th:if="${#lists.size(patientCounts) == 0}">No data available.</p>
+</div>
+</body>
+</html>

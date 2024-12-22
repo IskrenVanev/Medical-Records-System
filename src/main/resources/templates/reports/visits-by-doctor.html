@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Visits by Doctor</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-container select, .form-container input, .form-container button {
+            padding: 8px;
+            margin-right: 5px;
+        }
+
+        .nav-links {
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            padding: 10px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Visits by Doctor for a Given Period</h1>
+
+    <div class="nav-links">
+        <a class="nav-link" href="/view/reports">Go Back to Reports</a>
+        <a class="nav-link" href="/">Go Home</a>
+    </div>
+
+    <div class="form-container">
+        <form th:action="@{/view/reports/visits-by-doctor}" method="get">
+            <label for="doctor">Select Doctor:</label>
+            <select id="doctor" name="doctorId" required>
+                <option value="" disabled selected>Select a doctor</option>
+                <option th:each="doctor : ${doctors}" th:value="${doctor.id}" th:text="${doctor.name}" th:selected="${doctorId == doctor.id}"></option>
+            </select>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate" th:value="${startDate}" required>
+
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate" th:value="${endDate}" required>
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <table th:if="${visits != null and #lists.size(visits) > 0}">
+        <thead>
+        <tr>
+            <th>Visit Date</th>
+            <th>Patient Name</th>
+            <th>Prescribed Treatment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="visit : ${visits}">
+            <td th:text="${visit.visitDate}"></td>
+            <td th:text="${visit.patient.name}"></td>
+            <td th:text="${visit.prescribedTreatment}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p th:if="${visits == null or #lists.size(visits) == 0}">No visits found for the selected doctor and period.</p>
+</div>
+</body>
+</html>

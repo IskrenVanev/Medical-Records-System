@@ -41,6 +41,12 @@
             </select>
         </div>
 
+        <!-- Prescribed Treatment -->
+        <div class="mb-3">
+            <label for="prescribedTreatment" class="form-label">Prescribed Treatment</label>
+            <textarea id="prescribedTreatment" name="prescribedTreatment" class="form-control" rows="3" th:text="${visit.prescribedTreatment}" required></textarea>
+        </div>
+
         <!-- Visit Date -->
         <div class="mb-3">
             <label for="date" class="form-label">Visit Date</label>
