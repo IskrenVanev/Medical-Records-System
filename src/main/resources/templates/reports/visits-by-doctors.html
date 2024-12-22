@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Visits by Doctors</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        .form-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-container input, .form-container button {
+            padding: 8px;
+            margin-right: 5px;
+        }
+
+        .nav-links {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            padding: 10px;
+            margin-right: 10px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Visits by Doctors Within a Period</h1>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <a class="nav-link" href="/view/reports">Go Back to Reports</a>
+        <a class="nav-link" href="/">Go Home</a>
+    </div>
+
+    <!-- Form to filter visits by date range -->
+    <div class="form-container">
+        <form th:action="@{/view/reports/visits-by-doctors}" method="get">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate" th:value="${startDate}" required>
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate" th:value="${endDate}" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Table to display visits -->
+    <table th:if="${#lists.size(visits) > 0}">
+        <thead>
+        <tr>
+            <th>Doctor Name</th>
+            <th>Visit Date</th>
+            <th>Patient Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="visit : ${visits}">
+            <td th:text="${visit[0]}"></td> <!-- Doctor Name -->
+            <td th:text="${visit[1]}"></td> <!-- Visit Date -->
+            <td th:text="${visit[2]}"></td> <!-- Patient Name -->
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Message if no visits are found -->
+    <p th:if="${#lists.size(visits) == 0}">No visits found for the selected period.</p>
+</div>
+</body>
+</html>
